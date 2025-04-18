@@ -5,52 +5,49 @@
         <p>Não tem uma conta? <a href="./cadastro/cadastro.html">Cadastrar</a></p>
     </div>
 
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "firebase/app";
-        import { getAnalytics } from "firebase/analytics";
-        import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+   <script>
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAGMg5IwUYfc3OgzCZoVLIsca_ZJiZ1bZ0",
+    authDomain: "trabalhofaculdade1-61c62.firebaseapp.com",
+    projectId: "trabalhofaculdade1-61c62",
+    storageBucket: "trabalhofaculdade1-61c62.firebasestorage.app",
+    messagingSenderId: "726266289810",
+    appId: "1:726266289810:web:872c59b619153dd657d04b",
+    measurementId: "G-S15KZYQ9W5"
+  };
 
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyAGMg5IwUYfc3OgzCZoVLIsca_ZJiZ1bZ0",
-          authDomain: "trabalhofaculdade1-61c62.firebaseapp.com",
-          projectId: "trabalhofaculdade1-61c62",
-          storageBucket: "trabalhofaculdade1-61c62.firebasestorage.app",
-          messagingSenderId: "726266289810",
-          appId: "1:726266289810:web:872c59b619153dd657d04b",
-          measurementId: "G-S15KZYQ9W5"
-        };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const provider = new firebase.auth.GoogleAuthProvider();
+  const googleLoginButton = document.getElementById('google-login-button');
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+  googleLoginButton.addEventListener('click', () => {
+    firebase.auth().signInWithPopup(provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = result.credential;
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log("Usuário logado com Google:", user);
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.email;
+        // The AuthCredential type that was used.
+        const credential = error.credential;
+        console.error("Erro ao fazer login com Google:", errorCode, errorMessage, email, credential);
+        // ...
+      });
+  });
+</script>
 
-        const googleLoginButton = document.getElementById('google-login-button');
-        const auth = getAuth();
-        const provider = new GoogleAuthProvider();
-
-        googleLoginButton.addEventListener('click', async () => {
-          try {
-            const result = await signInWithPopup(auth, provider);
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential?.accessToken;
-            // The signed-in user info.
-            const user = result.user;
-            console.log("Usuário logado com Google:", user);
-            // Redirecione o usuário para a página principal ou faça outras ações necessárias
-          } catch (error) {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData?.email;
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.error("Erro ao fazer login com Google:", errorCode, errorMessage, email, credential);
-            // Exiba uma mensagem de erro para o usuário
-          }
-        });
-    </script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics-compat.js"></script>
 </body>
