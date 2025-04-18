@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração de Orçamento</title>
+    <link rel="stylesheet" href="orcamento.css">
+</head>
+<body>
+    <div class="orcamento-container">
+        <h2>Configuração de Orçamento</h2>
+        <form id="orcamento-form">
+            <div class="form-group">
+                <label for="renda">Renda Mensal:</label>
+                <input type="number" id="renda" name="renda" required>
+            </div>
+            <div class="form-group">
+                <label for="despesas">Despesas Mensais:</label>
+                <input type="number" id="despesas" name="despesas" required>
+            </div>
+            <button type="submit">Calcular Orçamento</button>
+        </form>
+        <div id="resultado" class="resultado"></div>
+    </div>
+    <script src="orca.js"></script>
+</body>
+</html>
