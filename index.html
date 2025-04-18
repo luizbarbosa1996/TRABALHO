@@ -3,24 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Página de Login</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <form action="#" method="post">
-            <div class="form-group">
-                <label for="username">Nome de usuário:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Entrar</button>
-        </form>
-        <p>Não tem uma conta? <a href="./cadastro/cadastro.html">Cadastrar</a></p>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+        </div>
+        <div class="form-group">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <button type="submit">Entrar</button>
+        <hr>
+        <button id="google-login-button">Entrar com Google</button>
     </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "firebase/app";
+        import { getAnalytics } from "firebase/analytics";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyAGMg5IwUYfc3OgzCZoVLIsca_ZJiZ1bZ0",
+          authDomain: "trabalhofaculdade1-61c62.firebaseapp.com",
+          projectId: "trabalhofaculdade1-61c62",
+          storageBucket: "trabalhofaculdade1-61c62.firebasestorage.app",
+          messagingSenderId: "726266289810",
+          appId: "1:726266289810:web:872c59b619153dd657d04b",
+          measurementId: "G-S15KZYQ9W5"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        const googleLoginButton = document.getElementById('google-login-button');
+        const auth = getAuth();
+        const provider = new GoogleAuthProvider();
+
+        googleLoginButton.addEventListener('click', async () => {
+          try {
+            const result = await signInWithPopup(auth, provider);
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential?.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            console.log("Usuário logado com Google:", user);
+            // Redirecione o usuário para a página principal ou faça outras ações necessárias
+          } catch (error) {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData?.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.error("Erro ao fazer login com Google:", errorCode, errorMessage, email, credential);
+            // Exiba uma mensagem de erro para o usuário
+          }
+        });
+    </script>
 </body>
 </html>
